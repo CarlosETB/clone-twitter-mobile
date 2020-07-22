@@ -7,7 +7,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/CarlosETB/clone-twitter-mobile?color=%2304D361)
 ![GitHub repository size](https://img.shields.io/github/repo-size/CarlosETB/clone-twitter-mobile)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/CarlosETB/clone-twitter-mobile/stargazers)
-[![Made by Unsure Programmer](https://img.shields.io/badge/made%20by-Unsure_Programmer-%183054)](https://www.youtube.com/c/UnsureProgrammer/)
+[![Made by Unsure Programmer](https://img.shields.io/badge/made%20by-Unsure_Programmer-%23183054)](https://www.youtube.com/c/UnsureProgrammer/)
 
 <!-- PROJECT LOGO -->
 
