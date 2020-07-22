@@ -56,6 +56,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - **[TypeScript](https://www.typescriptlang.org/)**
 - **[React - Native](https://reactnative.dev/)**
 - **[React Navigation](https://reactnavigation.org/)**
+- **[Styled - Components](https://styled-components.com/)**
 
  \* Veja o arquivo <kbd>[package.json](./package.json)</kbd>
 
