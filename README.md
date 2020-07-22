@@ -20,9 +20,18 @@
 ## Tabela de Conteúdo
 
 - [Tabela de Conteúdo](#tabela-de-conte%C3%BAdo)
+- [Sobre o Projeto](#sobre-o-projeto)
 - [Utilizando](#utilizando)
 - [Tecnologias](#tecnologias)
 - [Licença](#licen%C3%A7a)
+
+<br />
+
+<!-- ABOUT THE PROJECT -->
+
+## Sobre o Projeto
+
+Clone da interface da versão **mobile** do Twitter
 
 <br />
 
