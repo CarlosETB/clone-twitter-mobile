@@ -24,13 +24,8 @@ const Profile = () => {
   const headerHeight = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
     outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    extrapolate: "clamp",
   });
-
-  async function handleScroll() {
-    Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
-      useNativeDriver: true,
-    });
-  }
 
   return (
     <Container>
@@ -47,8 +42,9 @@ const Profile = () => {
 
       <ScrollView
         style={{ flex: 1 }}
-        onScroll={handleScroll}
-        contentContainerStyle={{ height: Dimensions.get("screen").height * 2 }}
+        onScroll={Animated.event([
+          { nativeEvent: { contentOffset: { y: scrollY } } },
+        ])}
         scrollEventThrottle={16}
       >
         <View
@@ -73,6 +69,8 @@ const Profile = () => {
             Carlos Tonholi
           </Text>
         </View>
+
+        <View style={{ height: Dimensions.get("screen").height }}></View>
       </ScrollView>
     </Container>
   );
