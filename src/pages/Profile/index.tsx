@@ -27,6 +27,38 @@ const Profile = () => {
     extrapolate: "clamp",
   });
 
+  const profileImageHeight = scrollY.interpolate({
+    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+    outputRange: [PROFILE_IMAGE_MAX_HEIGT, PROFILE_IMAGE_MIN_HEIGT],
+    extrapolate: "clamp",
+  });
+
+  const profileImageMarginTop = scrollY.interpolate({
+    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+    outputRange: [
+      HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGT / 2,
+      HEADER_MAX_HEIGHT + 5,
+    ],
+    extrapolate: "clamp",
+  });
+
+  const headerZindex = scrollY.interpolate({
+    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
+  });
+
+  const headerTitleBottom = scrollY.interpolate({
+    inputRange: [
+      0,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT + 26,
+    ],
+    outputRange: [-20, -20, -20, 0],
+    extrapolate: "clamp",
+  });
+
   return (
     <Container>
       <Animated.View
@@ -37,8 +69,18 @@ const Profile = () => {
           left: 0,
           backgroundColor: "#1da1f3",
           height: headerHeight,
+          zIndex: headerZindex,
+          alignItems: "center",
         }}
-      ></Animated.View>
+      >
+        <Animated.View
+          style={{ position: "absolute", bottom: headerTitleBottom }}
+        >
+          <Text style={{ color: "white", fontSize: 14, fontWeight: "bold" }}>
+            Carlos Tonholi
+          </Text>
+        </Animated.View>
+      </Animated.View>
 
       <ScrollView
         style={{ flex: 1 }}
@@ -47,15 +89,15 @@ const Profile = () => {
         ])}
         scrollEventThrottle={16}
       >
-        <View
+        <Animated.View
           style={{
-            width: PROFILE_IMAGE_MAX_HEIGT,
-            height: PROFILE_IMAGE_MAX_HEIGT,
+            width: profileImageHeight,
+            height: profileImageHeight,
             borderRadius: PROFILE_IMAGE_MAX_HEIGT,
             borderColor: "white",
             borderWidth: 3,
             overflow: "hidden",
-            marginTop: HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGT / 2,
+            marginTop: profileImageMarginTop,
             marginLeft: 10,
           }}
         >
@@ -63,7 +105,7 @@ const Profile = () => {
             source={require("../../assets/person.jpg")}
             style={{ flex: 1, width: null, height: null }}
           />
-        </View>
+        </Animated.View>
         <View>
           <Text style={{ fontWeight: "bold", fontSize: 26, paddingLeft: 10 }}>
             Carlos Tonholi
