@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 // Native
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Animated,
-  Dimensions,
-} from "react-native";
+import { View, Animated, StatusBar, YellowBox } from "react-native";
+
+// Shared
+import { CoverPhoto, ProfilePhoto } from "~/shared/images";
+import { color } from "~/shared/color";
+import { sizes } from "~/shared/sizes";
+import Icon from "~/shared/icons";
 
 // Private
-import { Container } from "./styles";
+import {
+  Header,
+  Button,
+  Content,
+  UserName,
+  Container,
+  CoverImage,
+  ScrollView,
+  ProfileImage,
+  HeaderContent,
+  UserNameHeader,
+  UserNameContainer,
+  ProfileImageContainer,
+} from "./styles";
 
-let HEADER_MAX_HEIGHT = 120;
-let HEADER_MIN_HEIGHT = 70;
-let PROFILE_IMAGE_MAX_HEIGT = 80;
-let PROFILE_IMAGE_MIN_HEIGT = 40;
+const HEADER_MAX_HEIGHT = 120 + sizes.statusBar;
+const HEADER_MIN_HEIGHT = sizes.width * 0.15 + sizes.statusBar;
+const PROFILE_IMAGE_MAX_HEIGT = 80;
+const PROFILE_IMAGE_MIN_HEIGT = 40;
 
 const Profile = () => {
   const scrollY = new Animated.Value(0);
@@ -48,71 +60,89 @@ const Profile = () => {
     extrapolate: "clamp",
   });
 
-  const headerTitleBottom = scrollY.interpolate({
+  const headerOpacity = scrollY.interpolate({
     inputRange: [
       0,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT + 26,
     ],
-    outputRange: [-20, -20, -20, 0],
+    outputRange: [0, 0.5, 0.75, 1],
     extrapolate: "clamp",
   });
 
+  const coverPhotoOpacity = scrollY.interpolate({
+    inputRange: [
+      0,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT + 26,
+    ],
+    outputRange: [1, 0.75, 0.5, 0],
+    extrapolate: "clamp",
+  });
+
+  useEffect(() => {
+    StatusBar.setTranslucent(true);
+    StatusBar.setBackgroundColor(color.transparent);
+  }, []);
+
+  useEffect(() => {
+    YellowBox.ignoreWarnings(["Animated: `useNativeDriver`"]);
+    YellowBox.ignoreWarnings([
+      "Animated.event now requires a second argument for options",
+    ]);
+  }, []);
+
+  const User = {
+    ProfilePhoto,
+    CoverPhoto,
+    UserName: "Carlos Tonholi",
+  };
+
   return (
     <Container>
-      <Animated.View
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          left: 0,
-          backgroundColor: "#1da1f3",
-          height: headerHeight,
-          zIndex: headerZindex,
-          alignItems: "center",
-        }}
-      >
-        <Animated.View
-          style={{ position: "absolute", bottom: headerTitleBottom }}
-        >
-          <Text style={{ color: "white", fontSize: 14, fontWeight: "bold" }}>
-            Carlos Tonholi
-          </Text>
-        </Animated.View>
-      </Animated.View>
+      <Header style={{ height: headerHeight, zIndex: headerZindex }}>
+        <CoverImage
+          source={User.CoverPhoto}
+          style={{ height: headerHeight, opacity: coverPhotoOpacity }}
+        />
+
+        <HeaderContent>
+          <Button>
+            <Icon name="arrow-back" />
+          </Button>
+
+          <UserNameContainer style={{ opacity: headerOpacity }}>
+            <UserNameHeader>{User.UserName}</UserNameHeader>
+          </UserNameContainer>
+
+          <Button>
+            <Icon name="more" />
+          </Button>
+        </HeaderContent>
+      </Header>
 
       <ScrollView
-        style={{ flex: 1 }}
         onScroll={Animated.event([
           { nativeEvent: { contentOffset: { y: scrollY } } },
         ])}
-        scrollEventThrottle={16}
       >
-        <Animated.View
+        <ProfileImageContainer
           style={{
             width: profileImageHeight,
             height: profileImageHeight,
-            borderRadius: PROFILE_IMAGE_MAX_HEIGT,
-            borderColor: "white",
-            borderWidth: 3,
-            overflow: "hidden",
             marginTop: profileImageMarginTop,
-            marginLeft: 10,
           }}
         >
-          <Image
-            source={require("../../assets/person.jpg")}
-            style={{ flex: 1, width: null, height: null }}
-          />
-        </Animated.View>
+          <ProfileImage source={User.ProfilePhoto} />
+        </ProfileImageContainer>
+
         <View>
-          <Text style={{ fontWeight: "bold", fontSize: 26, paddingLeft: 10 }}>
-            Carlos Tonholi
-          </Text>
+          <UserName>{User.UserName}</UserName>
         </View>
 
-        <View style={{ height: Dimensions.get("screen").height }}></View>
+        <Content></Content>
       </ScrollView>
     </Container>
   );
