@@ -57,7 +57,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - **[React - Native](https://reactnative.dev/)**
 - **[React Navigation](https://reactnavigation.org/)**
 - **[Styled - Components](https://styled-components.com/)**
-- **[React - Native - Reanimated](https://docs.swmansion.com/react-native-reanimated/)**
 
  \* Veja o arquivo <kbd>[package.json](./package.json)</kbd>
 
