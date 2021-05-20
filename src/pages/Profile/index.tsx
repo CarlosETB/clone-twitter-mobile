@@ -4,10 +4,13 @@ import React, { useEffect } from "react";
 import { View, Animated, StatusBar, YellowBox } from "react-native";
 
 // Shared
-import { CoverPhoto, ProfilePhoto } from "~/shared/images";
+import { CoverPhoto } from "~/shared/images";
 import { color } from "~/shared/color";
 import { sizes } from "~/shared/sizes";
 import Icon from "~/shared/icons";
+
+// Utils 
+import { randomColor } from '~/utils/randomColor'
 
 // Private
 import {
@@ -27,11 +30,13 @@ import {
 
 const HEADER_MAX_HEIGHT = 120 + sizes.statusBar;
 const HEADER_MIN_HEIGHT = sizes.width * 0.15 + sizes.statusBar;
-const PROFILE_IMAGE_MAX_HEIGT = 80;
-const PROFILE_IMAGE_MIN_HEIGT = 40;
+const PROFILE_IMAGE_MAX_HEIGHT = 80;
+const PROFILE_IMAGE_MIN_HEIGHT = 40;
 
 const Profile = () => {
   const scrollY = new Animated.Value(0);
+
+  const bgColor = randomColor()
 
   const headerHeight = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
@@ -41,20 +46,20 @@ const Profile = () => {
 
   const profileImageHeight = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [PROFILE_IMAGE_MAX_HEIGT, PROFILE_IMAGE_MIN_HEIGT],
+    outputRange: [PROFILE_IMAGE_MAX_HEIGHT, PROFILE_IMAGE_MIN_HEIGHT],
     extrapolate: "clamp",
   });
 
   const profileImageMarginTop = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
     outputRange: [
-      HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGT / 2,
+      HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGHT / 2,
       HEADER_MAX_HEIGHT + 5,
     ],
     extrapolate: "clamp",
   });
 
-  const headerZindex = scrollY.interpolate({
+  const headerZIndex = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
     outputRange: [0, 1],
     extrapolate: "clamp",
@@ -64,8 +69,8 @@ const Profile = () => {
     inputRange: [
       0,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT + 26,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT + 26,
     ],
     outputRange: [0, 0.5, 0.75, 1],
     extrapolate: "clamp",
@@ -75,8 +80,8 @@ const Profile = () => {
     inputRange: [
       0,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGT + 26,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT + 26,
     ],
     outputRange: [1, 0.75, 0.5, 0],
     extrapolate: "clamp",
@@ -95,14 +100,14 @@ const Profile = () => {
   }, []);
 
   const User = {
-    ProfilePhoto,
+    ProfilePhoto: 'https://github.com/CarlosETB.png',
     CoverPhoto,
     UserName: "Carlos Tonholi",
   };
 
   return (
     <Container>
-      <Header style={{ height: headerHeight, zIndex: headerZindex }}>
+      <Header style={{ height: headerHeight, zIndex: headerZIndex }}>
         <CoverImage
           source={User.CoverPhoto}
           style={{ height: headerHeight, opacity: coverPhotoOpacity }}
@@ -135,7 +140,7 @@ const Profile = () => {
             marginTop: profileImageMarginTop,
           }}
         >
-          <ProfileImage source={User.ProfilePhoto} />
+          <ProfileImage source={{ uri: User.ProfilePhoto }} />
         </ProfileImageContainer>
 
         <View>

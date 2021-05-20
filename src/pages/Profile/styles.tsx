@@ -7,20 +7,22 @@ import { sizes } from "~/shared/sizes";
 import { Text } from "~/shared/styles";
 import { color } from "~/shared/color";
 
+// Utils 
+import { randomColor } from '~/utils/randomColor'
+
+const bgColor = randomColor();
+
 export const Container = styled.View`
   flex: 1;
   background-color: white;
 `;
 
-export const Header = styled(Animated.View)`
-  top: 0;
-  left: 0;
-  right: 0;
+export const Header = styled(Animated.View)`   
   position: absolute;
   flex-direction: row;
   justify-content: center;
   padding-top: ${sizes.statusBar}px;
-  background-color: ${color.primary};
+  background-color: ${bgColor || bgColorcolor.primary};
 `;
 
 export const HeaderContent = styled.View`
@@ -50,7 +52,7 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
   width: ${sizes.width * 0.1}px;
   height: ${sizes.width * 0.1}px;
-  background-color: ${color.primaryLight};
+  background-color: ${bgColor || color.primaryLight};
 `;
 
 export const CoverImage = styled(Animated.Image).attrs({
